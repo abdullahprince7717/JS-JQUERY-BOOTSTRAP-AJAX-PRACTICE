@@ -1,15 +1,11 @@
 $(function () {
 
-  var deleteBtn = $("#delete-btn");
-  deleteBtn.click(function () {
-
-    $(this).closest("h3").remove();
-
-  });
-
-
   APIGetCall();
-  // handleDelete();
+
+
+  $("#main").on("click", "#delete-btn", handleDelete);
+
+
 
 });
 
@@ -17,20 +13,20 @@ function APIGetCall() {
 
   $.ajax({
 
-    url: "https://jsonplaceholder.typicode.com/posts/",
+    url: "https://usman-recipes.herokuapp.com/api/recipes/",
     method: "GET",
     success: function (response) {
 
-      var htmlElement = $("#main").html();
+      // var htmlElement = $("#main").html();
 
-      console.log(response);
-      console.log(htmlElement);
-      console.log("sdfsfbsjf")
-      console.log(typeof (response));
+      // console.log(response);
+      // console.log(htmlElement);
+      // console.log("sdfsfbsjf")
+      // console.log(typeof (response));
 
-      var objToString = JSON.stringify(response);
-      console.log(typeof (objToString));
-      console.log(response.title)
+      // var objToString = JSON.stringify(response);
+      // console.log(typeof (objToString));
+      // console.log(response.title)
 
       var content = $("#main");
       content.empty();
@@ -40,7 +36,7 @@ function APIGetCall() {
 
       for (var index = 0; index < response.length; index++) {
         var rec = response[index];
-        content.append(`<div><h3>Title of Content : ${rec.title} </h3><button id = delete-btn type="button" class="btn btn-primary"> Delete </button></div>`)
+        content.append(`<div class = "abc" data-id = ${rec._id} ><h3>Title of Content : ${rec._title} </h3><button id = delete-btn   type="button" class="btn btn-primary"> Delete </button></div>`)
 
       }
 
@@ -54,12 +50,20 @@ function APIGetCall() {
 
 }
 
-// function handleDelete() {
+function handleDelete() {
 
-//   deleteBtn.click(function () {
+  console.log("handling delete function");
 
-//     $(this).closest("h3").remove();
+  var parent = $(this).closest(".abc");
+  let id = parent.attr("data-id")
+  console.log(id);
+  $.ajax({
+    type: "DELETE",
+    url: "https://usman-recipes.herokuapp.com/api/recipes/" + id,
+    success: function () {
+      APIGetCall();
 
-//   });
+    }
+  });
 
-// }
+}
