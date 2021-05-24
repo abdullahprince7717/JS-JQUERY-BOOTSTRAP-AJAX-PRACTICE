@@ -5,7 +5,9 @@ $(function () {
 
   $("#main").on("click", "#delete-btn", handleDelete);
   $("#add-recipe-btn").click(addRecipe);
-  $("#main").on("click", "#edit-btn", edit);
+  $("#modal-save-btn").click(edit);
+
+  // $("#main").on("click", "#modal-save-btn", edit);
 
 });
 
@@ -35,7 +37,7 @@ function APIGetCall() {
 
       for (var index = 0; index < response.length; index++) {
         var rec = response[index];
-        content.append(`<div class = "abc" data-id = ${rec._id} ><h3>Title of Content : ${rec.title} </h3> <button id = edit-btn   type="button" class="btn btn-success pr-2" data-toggle="modal" data-target="#modelId" > Edit </button> <button id = delete-btn   type="button" class="btn btn-primary"> Delete </button></div>`)
+        content.append(`<div class = "abc" data-id = ${rec._id} ><h3> Title of Content : ${rec.title} <br>  Body of Content : ${rec.body} </h3> <button id = edit-btn   type="button" class="btn btn-success pr-2" data-toggle="modal" data-target="#modelId" > Edit </button> <button id = delete-btn   type="button" class="btn btn-primary"> Delete </button></div>`)
 
       }
     }
@@ -87,10 +89,13 @@ function addRecipe() {
       },
       dataType: "JSON",
       success: function (response) {
+
         APIGetCall();
 
       }
     });
+
+
 
     console.log("Recipe added successfully");
 
@@ -132,6 +137,7 @@ function edit() {
     },
     dataType: "JSON",
     success: function (response) {
+
       APIGetCall();
 
     }
